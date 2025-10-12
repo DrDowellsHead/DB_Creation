@@ -2,25 +2,25 @@
 #define SHARED_H
 
 struct Modules {
-  int id;
-  char name[30];
-  int level;
-  int cell;
-  int del_flag;
+    int id;
+    char name[30];
+    int level;
+    int cell;
+    int del_flag;
 };
 
 struct Levels {
-  int levels_num;
-  int count_levels;
-  int flag_levels;
+    int levels_num;
+    int count_levels;
+    int flag_levels;
 };
 
 struct Status_Events {
-  int event_id;
-  int module_id;
-  int module_status;
-  char date[11]; // "dd.mm.yyyy\0"
-  char time[9];  // "hh:mm:ss\0"
+    int event_id;
+    int module_id;
+    int module_status;
+    char date[11]; // "dd.mm.yyyy\0"
+    char time[9];  // "hh:mm:ss\0"
 };
 
 int db_select_all(const char *filename, void *buffer, size_t struct_size);
