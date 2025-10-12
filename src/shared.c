@@ -27,7 +27,7 @@ int db_select_all(const char *filename, void *buffer, size_t struct_size) {
 
     if (file_size == 0) {
         fclose(file);
-        return 1;
+        return 0;
     }
 
     count = file_size / struct_size;
@@ -167,7 +167,7 @@ int db_update(const char *filename, void *update_record, size_t struct_size,
     int result = db_save_all(filename, buffer, struct_size, count);
 
     if (result) {
-        printf("Запись с ID %d успешно обновлена\n");
+        printf("Запись с ID %d успешно обновлена\n", id);
     } else {
         printf("Ошибка при создании обновлённой записи\n");
     }
@@ -182,7 +182,8 @@ int db_delete(const char *filename, int id, size_t struct_size,
     // delete_type: 0 - мягкое удаление, 1 - физическое удаление
 
     if (filename == NULL || struct_size == 0) {
-        printf("Ошибка: неверные параметры\n") return 1;
+        printf("Ошибка: неверные параметры\n");
+        return 1;
     }
 
     void *buffer = NULL;
@@ -246,7 +247,7 @@ int db_delete(const char *filename, int id, size_t struct_size,
         count--;
         result = db_save_all(filename, buffer, struct_size, count);
         if (result)
-            printf("Запись с ID %d физически удалена\n");
+            printf("Запись с ID %d физически удалена\n", id);
     }
 
     free(buffer);

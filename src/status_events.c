@@ -16,7 +16,8 @@ int status_events_update(struct Status_Events *update_event, int id) {
 }
 
 int status_events_delete(int id, int delete_type) {
-    return db_delete("status_events.db", id, delete_type);
+    return db_delete("status_events.db", id, sizeof(struct Status_Events),
+                     delete_type);
 }
 
 int status_events_save_all(struct Status_Events *event, int count) {

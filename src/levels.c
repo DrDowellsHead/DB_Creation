@@ -8,8 +8,8 @@ int levels_insert(struct Levels *new_level) {
     return db_insert("levels.db", new_level, sizeof(struct Levels));
 }
 
-int levels_update(struct Levels *update_level) {
-    return db_update("levels.db", update_level, sizeof(struct Levels));
+int levels_update(struct Levels *update_level, int id) {
+    return db_update("levels.db", update_level, sizeof(struct Levels), id);
 }
 
 int levels_delete(int id, int delete_type) {
