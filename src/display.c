@@ -9,8 +9,6 @@
 
 #define HEIGHT 80
 #define WIDHT 25
-#define CONTENT_X 3
-#define CONTENT_Y 2
 
 void clear_screen() { printf("\033[2J\033[1;1H"); }
 
