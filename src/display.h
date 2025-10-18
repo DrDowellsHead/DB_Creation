@@ -1,5 +1,5 @@
-#ifndef DISPLAY.H
-#define DISPLAY.H
+#ifndef DISPLAY_H
+#define DISPLAY_H
 
 #define CONTENT_X 3
 #define CONTENT_Y 2

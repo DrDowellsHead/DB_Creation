@@ -1,5 +1,5 @@
-#ifndef LEVELS.H
-#define LEVELS.H
+#ifndef LEVELS_H
+#define LEVELS_H
 
 int levels_select_all(struct Levels *level);
 int levels_insert(struct Levels *new_level);

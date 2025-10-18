@@ -7,8 +7,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define HEIGHT 80
-#define WIDHT 25
+#define WIDTH 80
+#define HEIGHT 25
 
 void clear_screen() { printf("\033[2J\033[1;1H"); }
 
@@ -99,7 +99,5 @@ void main_menu() {
                               "Введите, пожалуйста, верное значение.");
             wait_for_enter();
         }
-        while (choice != 0)
-            ;
     }
 }

@@ -1,5 +1,5 @@
 #ifndef MODULES.H
-#define MODULES.H
+#define MODULES .H
 
 int modules_select_all(struct Modules *module);
 int modules_insert(struct Modules *new_module);

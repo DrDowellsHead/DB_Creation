@@ -1,5 +1,5 @@
 #ifndef STATUS_EVENTS.H
-#define STATUS_EVENTS.H
+#define STATUS_EVENTS .H
 
 int status_events_select_all(struct Status_Events *event);
 int status_events_insert(struct Status_Events *new_event);
