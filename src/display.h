@@ -1,6 +1,8 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
+#define WIDTH 80
+#define HEIGHT 25
 #define CONTENT_X 3
 #define CONTENT_Y 2
 
@@ -13,7 +15,6 @@ void modules_menu();
 void levels_menu();
 void events_menu();
 void show_all_modules();
-void ai_disabler();
 void clear_screen();
 void print_at_position(int x, int y, const char *text);
 

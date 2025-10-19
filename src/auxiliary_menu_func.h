@@ -1,6 +1,12 @@
 #ifndef AUXILIARY_MENU_FUNC_H
 #define AUXILIARY_MENU_FUNC_H
 
+struct Modules;
+struct Levels;
+struct Status_Events;
+
+void ai_disabler();
+
 // Menu
 
 void modules_menu();

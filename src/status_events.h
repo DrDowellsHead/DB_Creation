@@ -1,5 +1,7 @@
-#ifndef STATUS_EVENTS.H
-#define STATUS_EVENTS .H
+#ifndef STATUS_EVENTS_H
+#define STATUS_EVENTS_H
+
+#include "shared.h"
 
 int status_events_select_all(struct Status_Events *event);
 int status_events_insert(struct Status_Events *new_event);

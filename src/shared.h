@@ -1,6 +1,8 @@
 #ifndef SHARED_H
 #define SHARED_H
 
+#include <stddef.h>
+
 struct Modules {
     int id;
     char name[30];

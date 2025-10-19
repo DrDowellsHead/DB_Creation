@@ -1,5 +1,7 @@
-#ifndef MODULES.H
-#define MODULES .H
+#ifndef MODULES_H
+#define MODULES_H
+
+#include "shared.h"
 
 int modules_select_all(struct Modules *module);
 int modules_insert(struct Modules *new_module);

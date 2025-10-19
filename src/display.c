@@ -1,32 +1,31 @@
 #include "display.h"
+#include "auxiliary_menu_func.h"
 #include "levels.h"
 #include "modules.h"
+#include "shared.h"
 #include "status_events.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define WIDTH 80
-#define HEIGHT 25
 
 void clear_screen() { printf("\033[2J\033[1;1H"); }
 
 void draw_border() {
 
     printf("╔");
-    for (int x = 0; x < WIDHT - 2; x++)
+    for (int x = 0; x < WIDTH - 2; x++)
         printf("═");
     printf("╗\n");
 
     for (int y = 0; y < HEIGHT - 2; y++) {
         printf("║");
-        for (int x = 0; x < WIDHT - 2; x++)
+        for (int x = 0; x < WIDTH - 2; x++)
             printf(" ");
         printf("║\n");
     }
 
     printf("╚");
-    for (int x = 0; x < WIDHT - 2; x++)
+    for (int x = 0; x < WIDTH - 2; x++)
         printf("═");
     printf("╝\n");
 }
@@ -39,7 +38,7 @@ void print_at_position(int x, int y, const char *text) {
 }
 
 void print_centered(int y, const char *text) {
-    int x = (WIDHT - strlen(text)) / 2;
+    int x = (WIDTH - strlen(text)) / 2;
     print_at_position(x, y, text);
 }
 
@@ -98,5 +97,5 @@ void main_menu() {
                               "Введите, пожалуйста, верное значение.");
             wait_for_enter();
         }
-    }
+    } while (choice != 0);
 }

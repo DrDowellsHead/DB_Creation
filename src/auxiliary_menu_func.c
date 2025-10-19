@@ -62,7 +62,7 @@ void modules_menu() {
             show_modules_on_level();
             break; // Фильтрация modules_select_all() по уровню
         case 0:
-            main_menu();
+            break;
         default:
             print_at_position(CONTENT_X, CONTENT_Y + 15, "Неверный Выбор!");
             wait_for_enter();
@@ -107,7 +107,7 @@ void show_all_modules() {
                           "└─────┴──────────────────────────────┴───────┴──────"
                           "─┴──────────┘");
 
-        char count_text[50];
+        char count_text[100];
         snprintf(count_text, sizeof(count_text), "Всего модулей: %d", count);
         print_at_position(CONTENT_X, CONTENT_Y + 5 + (count < 15 ? count : 15),
                           count_text);
@@ -162,8 +162,8 @@ void find_module_by_id() {
     }
 
     if (!found) {
-        print_at_position(CONTENT_X, CONTENT_Y + 2, "Модуль с ID %d не найден",
-                          search_id);
+        set_cursor_position(CONTENT_X, CONTENT_Y + 2);
+        printf("Модуль с ID %d не найден", search_id);
     }
 
     wait_for_enter();
@@ -183,7 +183,7 @@ void add_module() {
 
     print_at_position(CONTENT_X, CONTENT_Y + 1, "Введите название модуля: ");
     set_cursor_position(CONTENT_X + 26, CONTENT_Y + 1);
-    scanf("%29s", &new_module.name);
+    scanf("%29s", new_module.name);
 
     print_at_position(CONTENT_X, CONTENT_Y + 2, "Введите уровень: ");
     set_cursor_position(CONTENT_X + 18, CONTENT_Y + 2);
@@ -225,38 +225,38 @@ void update_module() {
 
     for (int i = 0; i < count; i++) {
         if (modules[i].id == update_id) {
-            update_module = modules[i];
+            updated_module = modules[i];
             found = 1;
             break;
         }
     }
 
     if (!found) {
-        print_at_position(CONTENT_X, CONTENT_Y + 2, "Модуль с ID %d не найден",
-                          update_id);
+        set_cursor_position(CONTENT_X, CONTENT_Y + 2);
+        printf("Модуль с ID %d не найден", update_id);
         wait_for_enter();
         return;
     }
 
-    print_at_position(CONTENT_X, CONTENT_Y + 2, "Текущее название: %s",
-                      updated_module.name);
+    set_cursor_position(CONTENT_X, CONTENT_Y + 2);
+    printf("Текущее название: %s", updated_module.name);
     print_at_position(CONTENT_X, CONTENT_Y + 3, "Новое название: ");
     set_cursor_position(CONTENT_X + 16, CONTENT_Y + 3);
     scanf("%29s", updated_module.name);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 4, "Текущий уровень: %d",
-                      updated_module.level);
+    set_cursor_position(CONTENT_X, CONTENT_Y + 4);
+    printf("Текущий уровень: %d", updated_module.level);
     print_at_position(CONTENT_X, CONTENT_Y + 3, "Новый уровень: ");
     set_cursor_position(CONTENT_X + 15, CONTENT_Y + 5);
-    scanf("%29s", updated_module.level);
+    scanf("%d", &updated_module.level);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 4, "Текущая ячейка: %d",
-                      updated_module.cell);
+    set_cursor_position(CONTENT_X, CONTENT_Y + 6);
+    printf("Текущая ячейка: %d", updated_module.cell);
     print_at_position(CONTENT_X, CONTENT_Y + 3, "Новая ячейка: ");
     set_cursor_position(CONTENT_X + 14, CONTENT_Y + 7);
-    scanf("%29s", updated_module.cell);
+    scanf("%d", &updated_module.cell);
 
-    if (modules_update(&update_module, update_id)) {
+    if (modules_update(&updated_module, update_id)) {
         print_at_position(CONTENT_X, CONTENT_Y + 9, "Модуль успешно обновлён!");
     } else {
         print_at_position(CONTENT_X, CONTENT_Y + 9,
@@ -275,7 +275,7 @@ void delete_module_soft() {
     int delete_id;
     print_at_position(CONTENT_X, CONTENT_Y, "Введите ID модуля для удаления: ");
     set_cursor_position(CONTENT_X + 33, CONTENT_Y);
-    scanf("%d".& delete_id);
+    scanf("%d", &delete_id);
 
     if (modules_delete(delete_id, 0)) {
         print_at_position(CONTENT_X, CONTENT_Y + 2,
@@ -297,7 +297,7 @@ void delete_module_hard() {
     int delete_id;
     print_at_position(CONTENT_X, CONTENT_Y, "Введите ID модуля для удаления: ");
     set_cursor_position(CONTENT_X + 33, CONTENT_Y);
-    scanf("%d".& delete_id);
+    scanf("%d", &delete_id);
 
     print_at_position(CONTENT_X, CONTENT_Y + 1,
                       "Внимание, это действие необратимо!");
@@ -348,7 +348,7 @@ void show_modules_on_level() {
         "├─────┼──────────────────────────────┼───────┼──────────┤");
 
     int found_count = 0;
-    for (int i = 0; i < count * *found_count < 15; i++) {
+    for (int i = 0; i < count && found_count < 15; i++) {
         if (modules[i].level == level && modules[i].del_flag == 0) {
             char line[100];
             snprintf(line, sizeof(line), "│ %-3d │ %-28s │ %-5d │ %-8s │",
@@ -367,7 +367,7 @@ void show_modules_on_level() {
     print_at_position(
         CONTENT_X, CONTENT_Y + 5 + (found_count > 0 ? found_count : 1),
         "└─────┴──────────────────────────────┴───────┴──────────");
-    char count_text[50];
+    char count_text[100];
     snprintf(count_text, sizeof(count_text), "Найдено модулей на уровне %d: %d",
              level, found_count);
     print_at_position(CONTENT_X,
@@ -406,8 +406,10 @@ void levels_menu() {
         }
 
         switch (choice) {
-        case 1; show_all_events(); break; // Вызов status_events_select_all()
-            case 2:
+        case 1:
+            show_all_events();
+            break; // Вызов status_events_select_all()
+        case 2:
             add_event();
             break; // Вызов status_events_insert()
         case 3:
@@ -420,7 +422,6 @@ void levels_menu() {
             show_events_for_module();
             break; // Фильтрация по module_id
         case 0:
-            main_menu();
             break;
         default:
             print_at_position(CONTENT_X, CONTENT_Y + 13, "Неверный Выбор!");
@@ -460,7 +461,7 @@ void show_all_levels() {
         print_at_position(CONTENT_X, CONTENT_Y + 3 + (count < 15 ? count : 15),
                           "└─────────┴──────────────┴────────────────┘");
 
-        char count_text[50];
+        char count_text[100];
         snprintf(count_text, sizeof(count_text), "Всего уровней: %d", count);
         print_at_position(CONTENT_X, CONTENT_Y + 5 + (count < 15 ? count : 15),
                           count_text);
@@ -483,7 +484,7 @@ void add_level() {
 
     print_at_position(CONTENT_X, CONTENT_Y + 1, "Введите количетсво ячеек: ");
     set_cursor_position(CONTENT_X + 27, CONTENT_Y + 1);
-    scanf("%d".& new_level.count_levels);
+    scanf("%d", &new_level.count_levels);
 
     print_at_position(CONTENT_X, CONTENT_Y + 2,
                       "Защищённость (1 - да, 0 - нет)");
@@ -528,26 +529,27 @@ void update_level() {
     }
 
     if (!found) {
-        print_at_position(CONTENT_X, CONTENT_Y + 2, "Уровень %d не найден",
-                          update_num);
+        set_cursor_position(CONTENT_X, CONTENT_Y + 2);
+        printf("Уровень %d не найден", update_num);
         wait_for_enter();
         return;
     }
 
-    print_at_position(CONTENT_X, CONTENT_Y + 2, "Текущее количество ячеек: %d",
-                      update_level.counbt_levels);
+    set_cursor_position(CONTENT_X, CONTENT_Y + 2);
+    printf("Текущее количество ячеек: %d", updated_level.count_levels);
     print_at_position(CONTENT_X, CONTENT_Y + 3, "Новое количетсво ячеек: ");
     set_cursor_position(CONTENT_X + 20, CONTENT_Y + 3);
-    scanf("%d", &update_level.count_levels);
+    scanf("%d", &updated_level.count_levels);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 4, "Текущая защищённость: %s",
-                      updated_level.flag_levels ? "Да" : "Нет");
+    set_cursor_position(CONTENT_X, CONTENT_Y + 4);
+    printf("Текущая защищённость: %s",
+           updated_level.flag_levels ? "Да" : "Нет");
     print_at_position(CONTENT_X, CONTENT_Y + 5,
                       "Новая защищённость (1 - да, 0 - нет): ");
     set_cursor_position(CONTENT_X + 45, CONTENT_Y + 5);
-    scanf("%d", &update_level.flag_level);
+    scanf("%d", &updated_level.flag_levels);
 
-    if (levels_update(&update_level, update_num)) {
+    if (levels_update(&updated_level, update_num)) {
         print_at_position(CONTENT_X, CONTENT_Y + 7,
                           "Уровень успешно обновлён!");
     } else {
@@ -614,8 +616,10 @@ void events_menu() {
         }
 
         switch (choice) {
-        case 1; show_all_modules(); break; // Вызов modules_select_all()
-            case 2:
+        case 1:
+            show_all_modules();
+            break; // Вызов modules_select_all()
+        case 2:
             find_module_by_id();
             break; // Поиск через modules_select_all() + фильтрация
         case 3:
@@ -666,14 +670,14 @@ void show_all_events() {
             char line[100];
             snprintf(line, sizeof(line),
                      "│ %-3d │ %-3d │ %-8d │ %-10s │ %-8s │",
-                     events[i].events_id, events[i].module_id,
+                     events[i].event_id, events[i].module_id,
                      events[i].module_status, events[i].date, events[i].time);
         }
 
         print_at_position(CONTENT_X, CONTENT_Y + 3 + (count < 15 ? count : 15),
                           "└─────┴─────┴──────────┴────────────┴──────────┘");
 
-        char count_text[50];
+        char count_text[100];
         snprintf(count_text, sizeof(count_text), "Всего событий: %d", count);
         print_at_position(CONTENT_X, CONTENT_Y + 5 + (count < 15 ? count : 15),
                           count_text);
@@ -741,44 +745,44 @@ void update_event() {
 
     for (int i = 0; i < count; i++) {
         if (events[i].event_id == update_id) {
-            update_event = events[i];
+            updated_event = events[i];
             found = 1;
             break;
         }
     }
 
     if (!found) {
-        print_at_position(CONTENT_X, CONTENT_Y + 2,
-                          "Событие с ID %d не найдено", update_id);
+        set_cursor_position(CONTENT_X, CONTENT_Y + 2);
+        printf("Событие с ID %d не найдено", update_id);
         wait_for_enter();
         return;
     }
 
-    print_at_position(CONTENT_X, CONTENT_Y + 2, "Текущий ID модуля: %d",
-                      update_event.module_id);
+    set_cursor_position(CONTENT_X, CONTENT_Y + 2);
+    printf("Текущий ID модуля: %d", updated_event.module_id);
     print_at_position(CONTENT_X, CONTENT_Y + 3, "Новый ID модуля: ");
     set_cursor_position(CONTENT_X + 17, CONTENT_Y + 3);
-    scanf("%d", &update_module.module_id);
+    scanf("%d", &updated_event.module_id);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 4, "Текущий статус: %d",
-                      update_event.module_status);
+    set_cursor_position(CONTENT_X, CONTENT_Y + 4);
+    printf("Текущий статус: %d", updated_event.module_status);
     print_at_position(CONTENT_X, CONTENT_Y + 5, "Новый статус: ");
     set_cursor_position(CONTENT_X + 14, CONTENT_Y + 5);
-    scanf("%d", &update_event.module_status);
+    scanf("%d", &updated_event.module_status);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 6, "Текущая дата: %s",
-                      update_event.date);
+    set_cursor_position(CONTENT_X, CONTENT_Y + 6);
+    printf("Текущая дата: %s", updated_event.date);
     print_at_position(CONTENT_X, CONTENT_Y + 7, "Новая дата (дд.мм.гггг): ");
     set_cursor_position(CONTENT_X + 27, CONTENT_Y + 7);
-    scanf("%10s", update_event.date);
+    scanf("%10s", updated_event.date);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 8, "Текущее время: %s",
-                      update_event.time);
+    set_cursor_position(CONTENT_X, CONTENT_Y + 8);
+    printf("Текущее время: %s", updated_event.time);
     print_at_position(CONTENT_X, CONTENT_Y + 9, "Новое время (чч:мм:сс): ");
     set_cursor_position(CONTENT_X + 26, CONTENT_Y + 9);
-    scanf("%8s", update_event.time);
+    scanf("%8s", updated_event.time);
 
-    if (status_events_update(&update_event, update_id)) {
+    if (status_events_update(&updated_event, update_id)) {
         print_at_position(CONTENT_X, CONTENT_Y + 11,
                           "Событие успешно обновлено!");
     } else {
@@ -837,7 +841,7 @@ void show_events_for_module() {
         if (events[i].module_id == module_id) {
             char line[100];
             snprintf(line, sizeof(line), "│ %-3d │ %-8d │ %-10s │ %-8s │",
-                     events[i].events_id, events[i].module_status,
+                     events[i].event_id, events[i].module_status,
                      events[i].date, events[i].time);
             print_at_position(CONTENT_X, CONTENT_Y + 5 + found_count, line);
             found_count++;
@@ -853,12 +857,98 @@ void show_events_for_module() {
                       CONTENT_Y + 5 + (found_count > 0 ? found_count : 1),
                       "└─────┴──────────┴────────────┴──────────┘");
 
-    char count_text[50];
+    char count_text[100];
     snprintf(count_text, sizeof(count_text),
              "Найдено событий для модуля %d: %d", module_id, found_count);
     print_at_position(CONTENT_X,
                       CONTENT_Y + 7 + (found_count > 0 ? found_count : 1),
                       count_text);
+
+    wait_for_enter();
+}
+
+void ai_disabler() {
+    clear_screen();
+    draw_border();
+
+    // Центрируем заголовок вручную
+    set_cursor_position((WIDTH - 40) / 2, 2);
+    printf("🚨 АКТИВАЦИЯ ПРОТОКОЛА ОБЕЗВРЕЖИВАНИЯ ИИ");
+
+    set_cursor_position(CONTENT_X, CONTENT_Y);
+    printf("🔍 Поиск модулей на 1 уровне...");
+
+    // 1. Получаем все модули
+    struct Modules modules[1000];
+    int count = modules_select_all(modules);
+
+    if (count == 0) {
+        set_cursor_position(CONTENT_X, CONTENT_Y + 2);
+        printf("❌ Модули не найдены! База данных пуста.");
+        wait_for_enter();
+        return;
+    }
+
+    // 2. Находим модули на 1 уровне
+    int modules_on_level1 = 0;
+    int main_ai_module_id = -1;
+    char main_ai_module_name[30] = "";
+
+    for (int i = 0; i < count; i++) {
+        if (modules[i].level == 1 && modules[i].del_flag == 0) {
+            modules_on_level1++;
+            if (modules[i].cell == 1) {
+                main_ai_module_id = modules[i].id;
+                strcpy(main_ai_module_name, modules[i].name);
+            }
+        }
+    }
+
+    set_cursor_position(CONTENT_X, CONTENT_Y + 2);
+    printf("📊 Найдено модулей на 1 уровне: %d", modules_on_level1);
+
+    if (main_ai_module_id == -1) {
+        set_cursor_position(CONTENT_X, CONTENT_Y + 3);
+        printf("❌ Главный модуль ИИ не найден в ячейке 1!");
+        set_cursor_position(CONTENT_X, CONTENT_Y + 4);
+        printf("⚠️  Обезвреживание невозможно!");
+        wait_for_enter();
+        return;
+    }
+
+    set_cursor_position(CONTENT_X, CONTENT_Y + 3);
+    printf("🎯 Главный модуль ИИ найден: %s (ID: %d)", main_ai_module_name,
+           main_ai_module_id);
+
+    // 3. Удаляем все модули на 1 уровне, кроме главного в ячейке 1
+    int deleted_count = 0;
+    for (int i = 0; i < count; i++) {
+        if (modules[i].level == 1 && modules[i].del_flag == 0 &&
+            modules[i].cell != 1) {
+            if (modules_delete(modules[i].id, 0)) {
+                deleted_count++;
+            }
+        }
+    }
+
+    set_cursor_position(CONTENT_X, CONTENT_Y + 4);
+    printf("🗑️  Удалено модулей: %d", deleted_count);
+
+    // 4. Финальный результат
+    if (deleted_count > 0) {
+        set_cursor_position(CONTENT_X, CONTENT_Y + 6);
+        printf("🎉 УСПЕХ! ИИ ОБЕЗВРЕЖЕН!");
+        set_cursor_position(CONTENT_X, CONTENT_Y + 7);
+        printf("💡 В первой ячейке первого уровня остался только главный "
+               "модуль ИИ");
+        set_cursor_position(CONTENT_X, CONTENT_Y + 8);
+        printf("🌟 Человечество спасено!");
+    } else {
+        set_cursor_position(CONTENT_X, CONTENT_Y + 6);
+        printf("ℹ️  На 1 уровне уже только один модуль");
+        set_cursor_position(CONTENT_X, CONTENT_Y + 7);
+        printf("✅ Система уже находится в безопасном состоянии");
+    }
 
     wait_for_enter();
 }

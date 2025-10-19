@@ -56,7 +56,7 @@ int db_save_all(const char *filename, void *buffer, size_t struct_size,
 
     size_t elements_written = fwrite(buffer, struct_size, count, file);
 
-    if (elements_written != count) {
+    if (elements_written != (size_t)count) {
         printf("Ошибка: записано %zu из %d записей\n", elements_written, count);
         fclose(file);
         return (int)elements_written;

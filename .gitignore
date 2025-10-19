@@ -1,6 +1,9 @@
 # Executable files
 *.out
 
+#DB_Files
+*.db
+
 # Settings VS Code
 .vscode
 
