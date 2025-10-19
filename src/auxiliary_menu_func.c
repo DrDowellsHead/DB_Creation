@@ -116,6 +116,59 @@ void show_all_modules() {
     wait_for_enter();
 }
 
+void find_module_by_id() {
+    clear_screen();
+    draw_border();
+
+    print_centered(2, "Поиск модуля по ID");
+
+    int search_id;
+    print_at_position(CONTENT_X, CONTENT_Y, "Введите ID моудля для поиска: ");
+    set_cursor_position(CONTENT_X + 32, CONTENT_Y);
+    scanf("%d", &search_id);
+
+    struct Modules modules[1000];
+    int count = modules_select_all(modules);
+
+    int found = 0;
+    for (int i = 0; i < count; i++) {
+        if (modules[i].id == search_id && modules[i].del_flag == 0) {
+            print_at_position(CONTENT_X, CONTENT_Y + 2, "Модуль найден:");
+            print_at_position(
+                CONTENT_X, CONTENT_Y + 3,
+                "┌─────────────────────────────────────────────────────┐");
+
+            char info[100];
+            snprintf(info, sizeof(info), "│ ID: %-45d │", modules[i].id);
+            print_at_position(CONTENT_X, CONTENT_Y + 4, info);
+
+            snprintf(info, sizeof(info), "│ Название: %-36s │",
+                     modules[i].name);
+            print_at_position(CONTENT_X, CONTENT_Y + 5, info);
+
+            snprintf(info, sizeof(info), "│ Уровень: %-38d │",
+                     modules[i].level);
+            print_at_position(CONTENT_X, CONTENT_Y + 7, info);
+
+            snprintf(info, sizeof(info), "│ Ячейка: %-39d │", modules[i].cell);
+            print_at_position(CONTENT_X, CONTENT_Y + 7, info);
+
+            print_at_position(
+                CONTENT_X, CONTENT_Y + 8,
+                "└─────────────────────────────────────────────────────┘");
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        print_at_position(CONTENT_X, CONTENT_Y + 2, "Модуль с ID %d не найден",
+                          search_id);
+    }
+
+    wait_for_enter();
+}
+
 void add_module() {
     clear_screen();
     draw_border();
@@ -159,7 +212,8 @@ void update_module() {
     print_centered(2, "Обновление Модуля");
 
     int update_id;
-    print_at_position(CONTENT_X, CONTENT_Y, "Введите ID модуля для обновления: ");
+    print_at_position(CONTENT_X, CONTENT_Y,
+                      "Введите ID модуля для обновления: ");
     set_cursor_position(CONTENT_X + 35, CONTENT_Y);
     scanf("%d", &update_id);
 
@@ -178,22 +232,26 @@ void update_module() {
     }
 
     if (!found) {
-        print_at_position(CONTENT_X, CONTENT_Y + 2, "Модуль с ID %d не найден", update_id);
+        print_at_position(CONTENT_X, CONTENT_Y + 2, "Модуль с ID %d не найден",
+                          update_id);
         wait_for_enter();
         return;
     }
 
-    print_at_position(CONTENT_X, CONTENT_Y + 2, "Текущее название: %s", updated_module.name);
+    print_at_position(CONTENT_X, CONTENT_Y + 2, "Текущее название: %s",
+                      updated_module.name);
     print_at_position(CONTENT_X, CONTENT_Y + 3, "Новое название: ");
     set_cursor_position(CONTENT_X + 16, CONTENT_Y + 3);
     scanf("%29s", updated_module.name);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 4, "Текущий уровень: %d", updated_module.level);
+    print_at_position(CONTENT_X, CONTENT_Y + 4, "Текущий уровень: %d",
+                      updated_module.level);
     print_at_position(CONTENT_X, CONTENT_Y + 3, "Новый уровень: ");
     set_cursor_position(CONTENT_X + 15, CONTENT_Y + 5);
     scanf("%29s", updated_module.level);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 4, "Текущая ячейка: %d", updated_module.cell);
+    print_at_position(CONTENT_X, CONTENT_Y + 4, "Текущая ячейка: %d",
+                      updated_module.cell);
     print_at_position(CONTENT_X, CONTENT_Y + 3, "Новая ячейка: ");
     set_cursor_position(CONTENT_X + 14, CONTENT_Y + 7);
     scanf("%29s", updated_module.cell);
@@ -201,7 +259,8 @@ void update_module() {
     if (modules_update(&update_module, update_id)) {
         print_at_position(CONTENT_X, CONTENT_Y + 9, "Модуль успешно обновлён!");
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y + 9, "Ошибка при обновлении модуля!");
+        print_at_position(CONTENT_X, CONTENT_Y + 9,
+                          "Ошибка при обновлении модуля!");
     }
 
     wait_for_enter();
@@ -216,12 +275,14 @@ void delete_module_soft() {
     int delete_id;
     print_at_position(CONTENT_X, CONTENT_Y, "Введите ID модуля для удаления: ");
     set_cursor_position(CONTENT_X + 33, CONTENT_Y);
-    scanf("%d". &delete_id);
+    scanf("%d".& delete_id);
 
     if (modules_delete(delete_id, 0)) {
-        print_at_position(CONTENT_X, CONTENT_Y + 2, "Модуль помечен как удалённый!");
+        print_at_position(CONTENT_X, CONTENT_Y + 2,
+                          "Модуль помечен как удалённый!");
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y + 2, "Ошибка при удалении модуля!");
+        print_at_position(CONTENT_X, CONTENT_Y + 2,
+                          "Ошибка при удалении модуля!");
     }
 
     wait_for_enter();
@@ -236,10 +297,12 @@ void delete_module_hard() {
     int delete_id;
     print_at_position(CONTENT_X, CONTENT_Y, "Введите ID модуля для удаления: ");
     set_cursor_position(CONTENT_X + 33, CONTENT_Y);
-    scanf("%d". &delete_id);
+    scanf("%d".& delete_id);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 1, "Внимание, это действие необратимо!");
-    print_at_position(CONTENT_X, CONTENT_Y + 2, "Подтвердите удаление (1 - да, 0 - нет): ");
+    print_at_position(CONTENT_X, CONTENT_Y + 1,
+                      "Внимание, это действие необратимо!");
+    print_at_position(CONTENT_X, CONTENT_Y + 2,
+                      "Подтвердите удаление (1 - да, 0 - нет): ");
     set_cursor_position(CONTENT_X + 42, CONTENT_Y + 2);
 
     int confirm;
@@ -247,9 +310,11 @@ void delete_module_hard() {
 
     if (confirm == 1) {
         if (modules_delete(delete_id, 1)) {
-            print_at_position(CONTENT_X, CONTENT_Y + 4, "Модуль физически удалён!");
+            print_at_position(CONTENT_X, CONTENT_Y + 4,
+                              "Модуль физически удалён!");
         } else {
-            print_at_position(CONTENT_X, CONTENT_Y + 4, "Ошибка при удалении модуля!");
+            print_at_position(CONTENT_X, CONTENT_Y + 4,
+                              "Ошибка при удалении модуля!");
         }
     } else {
         print_at_position(CONTENT_X, CONTENT_Y + 4, "Удаление отменено!");
@@ -272,28 +337,42 @@ void show_modules_on_level() {
     struct Modules modules[1000];
     int count = modules_select_all(modules);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 2, "┌─────┬──────────────────────────────┬───────┬──────────┐");
-    print_at_position(CONTENT_X, CONTENT_Y + 3, "│ ID  │ Название                     │ Ячейка │ Статус   │");
-    print_at_position(CONTENT_X, CONTENT_Y + 4, "├─────┼──────────────────────────────┼───────┼──────────┤");
+    print_at_position(
+        CONTENT_X, CONTENT_Y + 2,
+        "┌─────┬──────────────────────────────┬───────┬──────────┐");
+    print_at_position(
+        CONTENT_X, CONTENT_Y + 3,
+        "│ ID  │ Название                     │ Ячейка │ Статус   │");
+    print_at_position(
+        CONTENT_X, CONTENT_Y + 4,
+        "├─────┼──────────────────────────────┼───────┼──────────┤");
 
     int found_count = 0;
-    for (int i = 0; i < count ** found_count < 15; i++) {
+    for (int i = 0; i < count * *found_count < 15; i++) {
         if (modules[i].level == level && modules[i].del_flag == 0) {
             char line[100];
-            snprintf(line, sizeof(line), "│ %-3d │ %-28s │ %-5d │ %-8s │", modules[i].id, modules[i].name, modules[i].cell, "Активен");
+            snprintf(line, sizeof(line), "│ %-3d │ %-28s │ %-5d │ %-8s │",
+                     modules[i].id, modules[i].name, modules[i].cell,
+                     "Активен");
             print_at_position(CONTENT_X, CONTENT_Y + 5 + found_count, line);
             found_count++;
         }
     }
 
     if (found_count == 0) {
-        print_at_position(CONTENT_X, CONTENT_Y + 5, "│           Модули не найдены               │");
+        print_at_position(CONTENT_X, CONTENT_Y + 5,
+                          "│           Модули не найдены               │");
     }
 
-    print_at_position(CONTENT_X, CONTENT_Y + 5 + (found_count > 0 ? found_count : 1), "└─────┴──────────────────────────────┴───────┴──────────");
+    print_at_position(
+        CONTENT_X, CONTENT_Y + 5 + (found_count > 0 ? found_count : 1),
+        "└─────┴──────────────────────────────┴───────┴──────────");
     char count_text[50];
-    snprintf(count_text, sizeof(count_text), "Найдено модулей на уровне %d: %d", level, found_count);
-    print_at_position(CONTENT_X, CONTENT_Y + 7 + (found_count > 0 ? found_count : 1), count_text);
+    snprintf(count_text, sizeof(count_text), "Найдено модулей на уровне %d: %d",
+             level, found_count);
+    print_at_position(CONTENT_X,
+                      CONTENT_Y + 7 + (found_count > 0 ? found_count : 1),
+                      count_text);
 
     wait_for_enter();
 }
@@ -360,23 +439,31 @@ void show_all_levels() {
     int count = levels_select_all(levels);
 
     if (count == 0) {
-        print_at_position(CONTENT_X, CONTENT_Y, "Уровни не найдены или файл пуст");
+        print_at_position(CONTENT_X, CONTENT_Y,
+                          "Уровни не найдены или файл пуст");
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y, "┌─────────┬──────────────┬────────────────┐");
-        print_at_position(CONTENT_X, CONTENT_Y + 1, "│ Уровень │ Кол-во ячеек │ Защищенность   │");
-        print_at_position(CONTENT_X, CONTENT_Y + 2, "├─────────┼──────────────┼────────────────┤");
+        print_at_position(CONTENT_X, CONTENT_Y,
+                          "┌─────────┬──────────────┬────────────────┐");
+        print_at_position(CONTENT_X, CONTENT_Y + 1,
+                          "│ Уровень │ Кол-во ячеек │ Защищенность   │");
+        print_at_position(CONTENT_X, CONTENT_Y + 2,
+                          "├─────────┼──────────────┼────────────────┤");
 
         for (int i = 0; i < count && i < 15; i++) {
             char line[100];
-            snprintf(line, sizeof(line), "│ %-7d │ %-12d │ %-14s │", levels[i].levels_num, levels[i].count_levels, levels[i].flag_levels ? "Защищён" : "Открыт");
+            snprintf(line, sizeof(line), "│ %-7d │ %-12d │ %-14s │",
+                     levels[i].levels_num, levels[i].count_levels,
+                     levels[i].flag_levels ? "Защищён" : "Открыт");
             print_at_position(CONTENT_X, CONTENT_Y + 3 + i, line);
         }
 
-        print_at_position(CONTENT_X, CONTENT_Y + 3 + (count < 15 ? count : 15), "└─────────┴──────────────┴────────────────┘");
+        print_at_position(CONTENT_X, CONTENT_Y + 3 + (count < 15 ? count : 15),
+                          "└─────────┴──────────────┴────────────────┘");
 
         char count_text[50];
         snprintf(count_text, sizeof(count_text), "Всего уровней: %d", count);
-        print_at_position(CONTENT_X, CONTENT_Y + 5 + (count < 15 ? count : 15), count_text);
+        print_at_position(CONTENT_X, CONTENT_Y + 5 + (count < 15 ? count : 15),
+                          count_text);
     }
 
     wait_for_enter();
@@ -396,16 +483,19 @@ void add_level() {
 
     print_at_position(CONTENT_X, CONTENT_Y + 1, "Введите количетсво ячеек: ");
     set_cursor_position(CONTENT_X + 27, CONTENT_Y + 1);
-    scanf("%d". &new_level.count_levels);
+    scanf("%d".& new_level.count_levels);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 2, "Защищённость (1 - да, 0 - нет)");
+    print_at_position(CONTENT_X, CONTENT_Y + 2,
+                      "Защищённость (1 - да, 0 - нет)");
     set_cursor_position(CONTENT_X + 31, CONTENT_Y + 2);
     scanf("%d", &new_level.flag_levels);
 
     if (levels_insert(&new_level)) {
-        print_at_position(CONTENT_X, CONTENT_Y + 4, "Уровень успешно добавлен!");
+        print_at_position(CONTENT_X, CONTENT_Y + 4,
+                          "Уровень успешно добавлен!");
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y + 4, "Ошибка при добавлении уровня!");
+        print_at_position(CONTENT_X, CONTENT_Y + 4,
+                          "Ошибка при добавлении уровня!");
     }
 
     wait_for_enter();
@@ -418,7 +508,8 @@ void update_level() {
     print_centered(2, "Обновление Уровня");
 
     int update_num;
-    print_at_position(CONTENT_X, CONTENT_Y, "Введите номер уровня для добавления: ");
+    print_at_position(CONTENT_X, CONTENT_Y,
+                      "Введите номер уровня для добавления: ");
     set_cursor_position(CONTENT_X + 38, CONTENT_Y);
     scanf("%d", &update_num);
 
@@ -437,25 +528,31 @@ void update_level() {
     }
 
     if (!found) {
-        print_at_position(CONTENT_X, CONTENT_Y + 2, "Уровень %d не найден", update_num);
+        print_at_position(CONTENT_X, CONTENT_Y + 2, "Уровень %d не найден",
+                          update_num);
         wait_for_enter();
         return;
     }
 
-    print_at_position(CONTENT_X, CONTENT_Y + 2, "Текущее количество ячеек: %d", update_level.counbt_levels);
+    print_at_position(CONTENT_X, CONTENT_Y + 2, "Текущее количество ячеек: %d",
+                      update_level.counbt_levels);
     print_at_position(CONTENT_X, CONTENT_Y + 3, "Новое количетсво ячеек: ");
     set_cursor_position(CONTENT_X + 20, CONTENT_Y + 3);
     scanf("%d", &update_level.count_levels);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 4, "Текущая защищённость: %s", updated_level.flag_levels ? "Да" : "Нет");
-    print_at_position(CONTENT_X, CONTENT_Y + 5, "Новая защищённость (1 - да, 0 - нет): ");
+    print_at_position(CONTENT_X, CONTENT_Y + 4, "Текущая защищённость: %s",
+                      updated_level.flag_levels ? "Да" : "Нет");
+    print_at_position(CONTENT_X, CONTENT_Y + 5,
+                      "Новая защищённость (1 - да, 0 - нет): ");
     set_cursor_position(CONTENT_X + 45, CONTENT_Y + 5);
     scanf("%d", &update_level.flag_level);
 
     if (levels_update(&update_level, update_num)) {
-        print_at_position(CONTENT_X, CONTENT_Y + 7, "Уровень успешно обновлён!");
+        print_at_position(CONTENT_X, CONTENT_Y + 7,
+                          "Уровень успешно обновлён!");
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y + 7, "Ошибка при обновлении уровня!");
+        print_at_position(CONTENT_X, CONTENT_Y + 7,
+                          "Ошибка при обновлении уровня!");
     }
 
     wait_for_enter();
@@ -468,14 +565,16 @@ void delete_level() {
     print_centered(2, "Удаление Уровня");
 
     int delete_num;
-    print_at_position(CONTENT_X, CONTENT_Y, "Введите номер уровня для удаления: ");
+    print_at_position(CONTENT_X, CONTENT_Y,
+                      "Введите номер уровня для удаления: ");
     set_cursor_position(CONTENT_X + 38, CONTENT_Y);
     scanf("%d", &delete_num);
 
     if (levels_delete(delete_num, 1)) {
         print_at_position(CONTENT_X, CONTENT_Y + 2, "Уровень успешно удалён!");
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y + 2, "Ошибка при удалении уровня!");
+        print_at_position(CONTENT_X, CONTENT_Y + 2,
+                          "Ошибка при удалении уровня!");
     }
 
     wait_for_enter();
@@ -553,22 +652,31 @@ void show_all_events() {
     int count = status_events_select_all(events);
 
     if (count == 0) {
-        print_at_position(CONTENT_X, CONTENT_Y, "События не найдены или файл пуст");
+        print_at_position(CONTENT_X, CONTENT_Y,
+                          "События не найдены или файл пуст");
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y, "┌─────┬─────┬──────────┬────────────┬──────────┐");
-        print_at_position(CONTENT_X, CONTENT_Y + 1, "│ ID  │ Мод │ Статус   │ Дата       │ Время    │");
-        print_at_position(CONTENT_X, CONTENT_Y + 2, "├─────┼─────┼──────────┼────────────┼──────────┤");
+        print_at_position(CONTENT_X, CONTENT_Y,
+                          "┌─────┬─────┬──────────┬────────────┬──────────┐");
+        print_at_position(CONTENT_X, CONTENT_Y + 1,
+                          "│ ID  │ Мод │ Статус   │ Дата       │ Время    │");
+        print_at_position(CONTENT_X, CONTENT_Y + 2,
+                          "├─────┼─────┼──────────┼────────────┼──────────┤");
 
         for (int i = 0; i < count && i < 15; i++) {
             char line[100];
-            snprintf(line, sizeof(line), "│ %-3d │ %-3d │ %-8d │ %-10s │ %-8s │", events[i].events_id, events[i].module_id, events[i].module_status, events[i].date, events[i].time);
+            snprintf(line, sizeof(line),
+                     "│ %-3d │ %-3d │ %-8d │ %-10s │ %-8s │",
+                     events[i].events_id, events[i].module_id,
+                     events[i].module_status, events[i].date, events[i].time);
         }
 
-        print_at_position(CONTENT_X, CONTENT_Y + 3 + (count < 15 ? count : 15), "└─────┴─────┴──────────┴────────────┴──────────┘");
+        print_at_position(CONTENT_X, CONTENT_Y + 3 + (count < 15 ? count : 15),
+                          "└─────┴─────┴──────────┴────────────┴──────────┘");
 
         char count_text[50];
         snprintf(count_text, sizeof(count_text), "Всего событий: %d", count);
-        print_at_position(CONTENT_X, CONTENT_Y + 5 + (count < 15 ? count : 15), count_text);
+        print_at_position(CONTENT_X, CONTENT_Y + 5 + (count < 15 ? count : 15),
+                          count_text);
     }
 
     wait_for_enter();
@@ -603,9 +711,11 @@ void add_event() {
     scanf("%8s", new_event.time);
 
     if (status_events_insert(&new_event)) {
-        print_at_position(CONTENT_X, CONTENT_Y + 6, "Событие успешно добавлено!");
+        print_at_position(CONTENT_X, CONTENT_Y + 6,
+                          "Событие успешно добавлено!");
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y, "Ошибка при добавлении события!");
+        print_at_position(CONTENT_X, CONTENT_Y,
+                          "Ошибка при добавлении события!");
     }
 
     wait_for_enter();
@@ -618,7 +728,8 @@ void update_event() {
     print_centered(2, "Обновление События");
 
     int update_id;
-    print_at_position(CONTENT_X, CONTENT_Y, "Введите ID события для обновления: ");
+    print_at_position(CONTENT_X, CONTENT_Y,
+                      "Введите ID события для обновления: ");
     set_cursor_position(CONTENT_X + 37, CONTENT_Y);
     scanf("%d", &update_id);
 
@@ -637,40 +748,117 @@ void update_event() {
     }
 
     if (!found) {
-        print_at_position(CONTENT_X, CONTENT_Y + 2, "Событие с ID %d не найдено", update_id);
+        print_at_position(CONTENT_X, CONTENT_Y + 2,
+                          "Событие с ID %d не найдено", update_id);
         wait_for_enter();
         return;
     }
 
-    print_at_position(CONTENT_X, CONTENT_Y + 2, "Текущий ID модуля: %d", update_event.module_id);
+    print_at_position(CONTENT_X, CONTENT_Y + 2, "Текущий ID модуля: %d",
+                      update_event.module_id);
     print_at_position(CONTENT_X, CONTENT_Y + 3, "Новый ID модуля: ");
     set_cursor_position(CONTENT_X + 17, CONTENT_Y + 3);
     scanf("%d", &update_module.module_id);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 4, "Текущий статус: %d", update_event.module_status);
+    print_at_position(CONTENT_X, CONTENT_Y + 4, "Текущий статус: %d",
+                      update_event.module_status);
     print_at_position(CONTENT_X, CONTENT_Y + 5, "Новый статус: ");
     set_cursor_position(CONTENT_X + 14, CONTENT_Y + 5);
     scanf("%d", &update_event.module_status);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 6, "Текущая дата: %s", update_event.date);
+    print_at_position(CONTENT_X, CONTENT_Y + 6, "Текущая дата: %s",
+                      update_event.date);
     print_at_position(CONTENT_X, CONTENT_Y + 7, "Новая дата (дд.мм.гггг): ");
     set_cursor_position(CONTENT_X + 27, CONTENT_Y + 7);
     scanf("%10s", update_event.date);
 
-    print_at_position(CONTENT_X, CONTENT_Y + 8, "Текущее время: %s", update_event.time);
+    print_at_position(CONTENT_X, CONTENT_Y + 8, "Текущее время: %s",
+                      update_event.time);
     print_at_position(CONTENT_X, CONTENT_Y + 9, "Новое время (чч:мм:сс): ");
     set_cursor_position(CONTENT_X + 26, CONTENT_Y + 9);
     scanf("%8s", update_event.time);
 
     if (status_events_update(&update_event, update_id)) {
-        print_at_position(CONTENT_X, CONTENT_Y + 11, "Событие успешно обновлено!");
+        print_at_position(CONTENT_X, CONTENT_Y + 11,
+                          "Событие успешно обновлено!");
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y + 11, "Ошибка при обновлении события!");
+        print_at_position(CONTENT_X, CONTENT_Y + 11,
+                          "Ошибка при обновлении события!");
     }
 
     wait_for_enter();
 }
 
 void delete_event() {
-    
+    clear_screen();
+    draw_border();
+
+    print_centered(2, "Удаление События");
+
+    int delete_id;
+    print_at_position(CONTENT_X, CONTENT_Y,
+                      "Введите ID события для удаления: ");
+    set_cursor_position(CONTENT_X + 37, CONTENT_Y);
+    scanf("%d", &delete_id);
+
+    if (status_events_delete(delete_id, 1)) {
+        print_at_position(CONTENT_X, CONTENT_Y + 2, "Событие успешно удалено!");
+    } else {
+        print_at_position(CONTENT_X, CONTENT_Y + 2,
+                          "Ошибка при удалении события!");
+    }
+
+    wait_for_enter();
+}
+
+void show_events_for_module() {
+    clear_screen();
+    draw_border();
+
+    print_centered(2, "События Модуля");
+
+    int module_id;
+    print_at_position(CONTENT_X, CONTENT_Y, "Введите ID модуля: ");
+    set_cursor_position(CONTENT_X + 19, CONTENT_Y);
+    scanf("%d", &module_id);
+
+    struct Status_Events events[1000];
+    int count = status_events_select_all(events);
+
+    print_at_position(CONTENT_X, CONTENT_Y + 2,
+                      "┌─────┬──────────┬────────────┬──────────┐");
+    print_at_position(CONTENT_X, CONTENT_Y + 3,
+                      "│ ID  │ Статус   │ Дата       │ Время    │");
+    print_at_position(CONTENT_X, CONTENT_Y + 4,
+                      "├─────┼──────────┼────────────┼──────────┤");
+
+    int found_count = 0;
+    for (int i = 0; i < count && found_count < 15; i++) {
+        if (events[i].module_id == module_id) {
+            char line[100];
+            snprintf(line, sizeof(line), "│ %-3d │ %-8d │ %-10s │ %-8s │",
+                     events[i].events_id, events[i].module_status,
+                     events[i].date, events[i].time);
+            print_at_position(CONTENT_X, CONTENT_Y + 5 + found_count, line);
+            found_count++;
+        }
+    }
+
+    if (found_count == 0) {
+        print_at_position(CONTENT_X, CONTENT_Y + 5,
+                          "│     События не найдены      │");
+    }
+
+    print_at_position(CONTENT_X,
+                      CONTENT_Y + 5 + (found_count > 0 ? found_count : 1),
+                      "└─────┴──────────┴────────────┴──────────┘");
+
+    char count_text[50];
+    snprintf(count_text, sizeof(count_text),
+             "Найдено событий для модуля %d: %d", module_id, found_count);
+    print_at_position(CONTENT_X,
+                      CONTENT_Y + 7 + (found_count > 0 ? found_count : 1),
+                      count_text);
+
+    wait_for_enter();
 }
