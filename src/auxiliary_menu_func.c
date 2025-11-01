@@ -407,16 +407,16 @@ void levels_menu() {
         switch (choice) {
         case 1:
             show_all_levels();
-            break; // Вызов status_events_select_all()
+            break;
         case 2:
             add_level();
-            break; // Вызов status_events_insert()
+            break;
         case 3:
             update_level();
-            break; // Вызов status_events_update()
+            break;
         case 4:
             delete_level();
-            break; // Вызов status_events_delete()
+            break;
         case 0:
             break;
         default:
