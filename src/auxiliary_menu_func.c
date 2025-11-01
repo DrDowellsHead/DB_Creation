@@ -15,7 +15,7 @@ void modules_menu() {
         clear_screen();
         draw_border();
 
-        print_centered(2, "Управление Уровнями");
+        print_centered(2, "Управление Модулями");
 
         print_at_position(CONTENT_X, CONTENT_Y + 2, "Доступные Операции:");
         print_at_position(CONTENT_X, CONTENT_Y + 4, "1. Показать все модули");
@@ -74,7 +74,7 @@ void show_all_modules() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Все Модули Базы Данных");
+    print_centered(1, "Все Модули Базы Данных");
 
     struct Modules modules[1000];
 
@@ -120,10 +120,10 @@ void find_module_by_id() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Поиск модуля по ID");
+    print_centered(1, "Поиск модуля по ID");
 
     int search_id;
-    print_at_position(CONTENT_X, CONTENT_Y, "Введите ID моудля для поиска: ");
+    print_at_position(CONTENT_X, CONTENT_Y, "Введите ID модуля для поиска: ");
     set_cursor_position(CONTENT_X + 32, CONTENT_Y);
     scanf("%d", &search_id);
 
@@ -173,7 +173,7 @@ void add_module() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Добавление Нового Модуля");
+    print_centered(1, "Добавление Нового Модуля");
 
     struct Modules new_module;
 
@@ -196,7 +196,7 @@ void add_module() {
     new_module.del_flag = 0; // Новый модуль всегда активен
 
     if (modules_insert(&new_module)) {
-        print_at_position(CONTENT_X, CONTENT_Y + 5, "Моудль успешно добавлен!");
+        print_at_position(CONTENT_X, CONTENT_Y + 5, "Модуль успешно добавлен!");
     } else {
         print_at_position(CONTENT_X, CONTENT_Y + 5,
                           "Ошибка при добавлении модуля!");
@@ -209,7 +209,7 @@ void update_module() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Обновление Модуля");
+    print_centered(1, "Обновление Модуля");
 
     int update_id;
     print_at_position(CONTENT_X, CONTENT_Y,
@@ -270,7 +270,7 @@ void delete_module_soft() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Мягкое Удаление Модуля");
+    print_centered(1, "Мягкое Удаление Модуля");
 
     int delete_id;
     print_at_position(CONTENT_X, CONTENT_Y, "Введите ID модуля для удаления: ");
@@ -278,10 +278,10 @@ void delete_module_soft() {
     scanf("%d", &delete_id);
 
     if (modules_delete(delete_id, 0)) {
-        print_at_position(CONTENT_X, CONTENT_Y + 2,
+        print_at_position(CONTENT_X, CONTENT_Y + 3,
                           "Модуль помечен как удалённый!");
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y + 2,
+        print_at_position(CONTENT_X, CONTENT_Y + 3,
                           "Ошибка при удалении модуля!");
     }
 
@@ -292,7 +292,7 @@ void delete_module_hard() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Физическое Удаление Модуля");
+    print_centered(1, "Физическое Удаление Модуля");
 
     int delete_id;
     print_at_position(CONTENT_X, CONTENT_Y, "Введите ID модуля для удаления: ");
@@ -310,14 +310,14 @@ void delete_module_hard() {
 
     if (confirm == 1) {
         if (modules_delete(delete_id, 1)) {
-            print_at_position(CONTENT_X, CONTENT_Y + 4,
+            print_at_position(CONTENT_X, CONTENT_Y + 5,
                               "Модуль физически удалён!");
         } else {
-            print_at_position(CONTENT_X, CONTENT_Y + 4,
+            print_at_position(CONTENT_X, CONTENT_Y + 5,
                               "Ошибка при удалении модуля!");
         }
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y + 4, "Удаление отменено!");
+        print_at_position(CONTENT_X, CONTENT_Y + 5, "Удаление отменено!");
     }
 
     wait_for_enter();
@@ -327,7 +327,7 @@ void show_modules_on_level() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Модули на Уровне");
+    print_centered(1, "Модули на Уровне");
 
     int level;
     print_at_position(CONTENT_X, CONTENT_Y, "Введите номер уровня: ");
@@ -386,18 +386,17 @@ void levels_menu() {
         clear_screen();
         draw_border();
 
-        print_centered(2, "Управление Событиями");
+        print_centered(2, "Управление Уровнями");
 
         print_at_position(CONTENT_X, CONTENT_Y + 2, "Доступные Операции:");
-        print_at_position(CONTENT_X, CONTENT_Y + 4, "1. Показать все события");
-        print_at_position(CONTENT_X, CONTENT_Y + 5, "2. Добавить событие");
-        print_at_position(CONTENT_X, CONTENT_Y + 6, "3. Обновить событие");
-        print_at_position(CONTENT_X, CONTENT_Y + 7, "4. Удалить событие");
-        print_at_position(CONTENT_X, CONTENT_Y + 8, "5. События модуля");
-        print_at_position(CONTENT_X, CONTENT_Y + 9, "0. Назад в главное меню.");
+        print_at_position(CONTENT_X, CONTENT_Y + 4, "1. Показать все уровни");
+        print_at_position(CONTENT_X, CONTENT_Y + 5, "2. Добавить уровень");
+        print_at_position(CONTENT_X, CONTENT_Y + 6, "3. Обновить уровень");
+        print_at_position(CONTENT_X, CONTENT_Y + 7, "4. Удалить уровень");
+        print_at_position(CONTENT_X, CONTENT_Y + 8, "0. Назад в главное меню.");
 
-        print_at_position(CONTENT_X, CONTENT_Y + 11, "Выберите Операцию: ");
-        set_cursor_position(CONTENT_X + 19, CONTENT_Y + 11);
+        print_at_position(CONTENT_X, CONTENT_Y + 10, "Выберите Операцию: ");
+        set_cursor_position(CONTENT_X + 19, CONTENT_Y + 10);
 
         if (scanf("%d", &choice) != 1) {
             while (getchar() != '\n')
@@ -407,20 +406,17 @@ void levels_menu() {
 
         switch (choice) {
         case 1:
-            show_all_events();
+            show_all_levels();
             break; // Вызов status_events_select_all()
         case 2:
-            add_event();
+            add_level();
             break; // Вызов status_events_insert()
         case 3:
-            update_event();
+            update_level();
             break; // Вызов status_events_update()
         case 4:
-            delete_event();
+            delete_level();
             break; // Вызов status_events_delete()
-        case 5:
-            show_events_for_module();
-            break; // Фильтрация по module_id
         case 0:
             break;
         default:
@@ -434,7 +430,7 @@ void show_all_levels() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Все Уровни Базы Данных");
+    print_centered(1, "Все Уровни Базы Данных");
 
     struct Levels levels[100];
     int count = levels_select_all(levels);
@@ -474,7 +470,7 @@ void add_level() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Добавление Нового Уровня");
+    print_centered(1, "Добавление Нового Уровня");
 
     struct Levels new_level;
 
@@ -506,12 +502,12 @@ void update_level() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Обновление Уровня");
+    print_centered(1, "Обновление Уровня");
 
     int update_num;
     print_at_position(CONTENT_X, CONTENT_Y,
-                      "Введите номер уровня для добавления: ");
-    set_cursor_position(CONTENT_X + 38, CONTENT_Y);
+                      "Введите номер уровня для обновления: ");
+    set_cursor_position(CONTENT_X + 37, CONTENT_Y);
     scanf("%d", &update_num);
 
     struct Levels levels[100];
@@ -538,7 +534,7 @@ void update_level() {
     set_cursor_position(CONTENT_X, CONTENT_Y + 2);
     printf("Текущее количество ячеек: %d", updated_level.count_levels);
     print_at_position(CONTENT_X, CONTENT_Y + 3, "Новое количетсво ячеек: ");
-    set_cursor_position(CONTENT_X + 20, CONTENT_Y + 3);
+    set_cursor_position(CONTENT_X + 24, CONTENT_Y + 3);
     scanf("%d", &updated_level.count_levels);
 
     set_cursor_position(CONTENT_X, CONTENT_Y + 4);
@@ -550,10 +546,10 @@ void update_level() {
     scanf("%d", &updated_level.flag_levels);
 
     if (levels_update(&updated_level, update_num)) {
-        print_at_position(CONTENT_X, CONTENT_Y + 7,
+        print_at_position(CONTENT_X, CONTENT_Y + 8,
                           "Уровень успешно обновлён!");
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y + 7,
+        print_at_position(CONTENT_X, CONTENT_Y + 8,
                           "Ошибка при обновлении уровня!");
     }
 
@@ -564,7 +560,7 @@ void delete_level() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Удаление Уровня");
+    print_centered(1, "Удаление Уровня");
 
     int delete_num;
     print_at_position(CONTENT_X, CONTENT_Y,
@@ -572,7 +568,7 @@ void delete_level() {
     set_cursor_position(CONTENT_X + 38, CONTENT_Y);
     scanf("%d", &delete_num);
 
-    if (levels_delete(delete_num, 1)) {
+    if (levels_delete(delete_num, 1) == 0) {
         print_at_position(CONTENT_X, CONTENT_Y + 2, "Уровень успешно удалён!");
     } else {
         print_at_position(CONTENT_X, CONTENT_Y + 2,
@@ -591,23 +587,18 @@ void events_menu() {
         clear_screen();
         draw_border();
 
-        print_centered(2, "Управление Уровнями");
+        print_centered(1, "Управление Событиями");
 
         print_at_position(CONTENT_X, CONTENT_Y + 2, "Доступные Операции:");
-        print_at_position(CONTENT_X, CONTENT_Y + 4, "1. Показать все модули");
-        print_at_position(CONTENT_X, CONTENT_Y + 5, "2. Найти модуль по ID");
-        print_at_position(CONTENT_X, CONTENT_Y + 6, "3. Добавить модуль");
-        print_at_position(CONTENT_X, CONTENT_Y + 7, "4. Обновить модуль");
-        print_at_position(CONTENT_X, CONTENT_Y + 8,
-                          "5. Удалить модуль (мягкое удаление)");
-        print_at_position(CONTENT_X, CONTENT_Y + 9,
-                          "6. Удалить модуль (физическое удаление)");
-        print_at_position(CONTENT_X, CONTENT_Y + 10, "7. Модули на уровне");
-        print_at_position(CONTENT_X, CONTENT_Y + 11,
-                          "0. Назад в главное меню.");
+        print_at_position(CONTENT_X, CONTENT_Y + 4, "1. Показать все события");
+        print_at_position(CONTENT_X, CONTENT_Y + 5, "2. Добавить событие");
+        print_at_position(CONTENT_X, CONTENT_Y + 6, "3. Обновить событие");
+        print_at_position(CONTENT_X, CONTENT_Y + 7, "4. Удалить событие");
+        print_at_position(CONTENT_X, CONTENT_Y + 8, "5. События модуля");
+        print_at_position(CONTENT_X, CONTENT_Y + 9, "0. Назад в главное меню.");
 
-        print_at_position(CONTENT_X, CONTENT_Y + 13, "Выберите Операцию: ");
-        set_cursor_position(CONTENT_X + 19, CONTENT_Y + 13);
+        print_at_position(CONTENT_X, CONTENT_Y + 11, "Выберите Операцию: ");
+        set_cursor_position(CONTENT_X + 19, CONTENT_Y + 11);
 
         if (scanf("%d", &choice) != 1) {
             while (getchar() != '\n')
@@ -617,30 +608,24 @@ void events_menu() {
 
         switch (choice) {
         case 1:
-            show_all_modules();
-            break; // Вызов modules_select_all()
+            show_all_events();
+            break;
         case 2:
-            find_module_by_id();
-            break; // Поиск через modules_select_all() + фильтрация
+            add_event();
+            break;
         case 3:
-            add_module();
-            break; // Вызов modules_insert()
+            update_event();
+            break;
         case 4:
-            update_module();
-            break; // Вызов modules_update()
+            delete_event();
+            break;
         case 5:
-            delete_module_soft();
-            break; // Вызов modules_delete() с delete_type=0
-        case 6:
-            delete_module_hard();
-            break; // Вызов modules_delete() с delete_type=1
-        case 7:
-            show_modules_on_level();
-            break; // Фильтрация modules_select_all() по уровню
+            show_events_for_module();
+            break;
         case 0:
             break; // Просто выходим из цикла
         default:
-            print_at_position(CONTENT_X, CONTENT_Y + 15, "Неверный Выбор!");
+            print_at_position(CONTENT_X, CONTENT_Y + 13, "Неверный Выбор!");
             wait_for_enter();
         }
     } while (choice != 0);
@@ -650,7 +635,7 @@ void show_all_events() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Все События Базы Данных");
+    print_centered(1, "Все События Базы Данных");
 
     struct Status_Events events[1000];
     int count = status_events_select_all(events);
@@ -690,7 +675,7 @@ void add_event() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Добавление Нового События");
+    print_centered(1, "Добавление Нового События");
 
     struct Status_Events new_event;
 
@@ -715,10 +700,10 @@ void add_event() {
     scanf("%8s", new_event.time);
 
     if (status_events_insert(&new_event)) {
-        print_at_position(CONTENT_X, CONTENT_Y + 6,
+        print_at_position(CONTENT_X, CONTENT_Y + 7,
                           "Событие успешно добавлено!");
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y,
+        print_at_position(CONTENT_X, CONTENT_Y + 7,
                           "Ошибка при добавлении события!");
     }
 
@@ -729,7 +714,7 @@ void update_event() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Обновление События");
+    print_centered(1, "Обновление События");
 
     int update_id;
     print_at_position(CONTENT_X, CONTENT_Y,
@@ -783,10 +768,10 @@ void update_event() {
     scanf("%8s", updated_event.time);
 
     if (status_events_update(&updated_event, update_id)) {
-        print_at_position(CONTENT_X, CONTENT_Y + 11,
+        print_at_position(CONTENT_X, CONTENT_Y + 12,
                           "Событие успешно обновлено!");
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y + 11,
+        print_at_position(CONTENT_X, CONTENT_Y + 12,
                           "Ошибка при обновлении события!");
     }
 
@@ -797,7 +782,7 @@ void delete_event() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "Удаление События");
+    print_centered(1, "Удаление События");
 
     int delete_id;
     print_at_position(CONTENT_X, CONTENT_Y,
@@ -806,9 +791,9 @@ void delete_event() {
     scanf("%d", &delete_id);
 
     if (status_events_delete(delete_id, 1)) {
-        print_at_position(CONTENT_X, CONTENT_Y + 2, "Событие успешно удалено!");
+        print_at_position(CONTENT_X, CONTENT_Y + 3, "Событие успешно удалено!");
     } else {
-        print_at_position(CONTENT_X, CONTENT_Y + 2,
+        print_at_position(CONTENT_X, CONTENT_Y + 3,
                           "Ошибка при удалении события!");
     }
 
@@ -819,7 +804,7 @@ void show_events_for_module() {
     clear_screen();
     draw_border();
 
-    print_centered(2, "События Модуля");
+    print_centered(1, "События Модуля");
 
     int module_id;
     print_at_position(CONTENT_X, CONTENT_Y, "Введите ID модуля: ");
